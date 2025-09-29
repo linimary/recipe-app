@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { signIn } from 'next-auth/react'
 import ErrorMessage from '@/app/components/ErrorMessage'
 import { InputField } from '@/app/components/InputField'
 
@@ -40,6 +39,7 @@ export default function SignUp() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: data.name, email: data.email, password: data.password }),
+        credentials: 'include'
       })
 
       if (!response.ok) {
@@ -47,18 +47,7 @@ export default function SignUp() {
         throw new Error(errorData.error || 'Failed to create account')
       }
 
-      // Auto sign in after successful signup
-      const signInResult = await signIn('credentials', {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      })
-
-      if (signInResult?.error) {
-        throw new Error('Account created but failed to sign in. Please sign in manually.')
-      }
-
-      router.push('/')
+      router.push('/auth/signin?signup=success')
       router.refresh()
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'Something went wrong')
@@ -71,10 +60,10 @@ export default function SignUp() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Create your Recipes account
+          Create your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Join our recipes community today
+          Join our community today
         </p>
       </div>
 
@@ -91,7 +80,7 @@ export default function SignUp() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-600 to-orange-600 hover:from-green-700 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isSubmitting ? (
                 <div className="flex items-center">
@@ -104,7 +93,7 @@ export default function SignUp() {
 
           <div className="mt-6 text-center text-sm text-gray-500">
             Already have an account?{' '}
-            <Link href="/auth/signin" className="font-medium text-blue-600 hover:text-blue-800">
+            <Link href="/auth/signin" className="font-medium text-green-600 hover:text-green-800">
               Sign in
             </Link>
           </div>

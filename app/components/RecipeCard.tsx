@@ -4,15 +4,14 @@ import { Recipe } from '../lib/data'
 
 interface RecipeCardProps {
   recipe: Recipe
-    showCategoryBadge?: boolean
-    showFavoriteButton?: boolean
+  showCategoryBadge?: boolean
+  showFavoriteButton?: boolean
 }
 
 export default function RecipeCard({ recipe, showCategoryBadge = true, showFavoriteButton = true }: RecipeCardProps) {
   return (
     <Link href={`/recipes/${recipe.id}`} className="group block">
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
-        {/* Recipe Image */}
         <div className="relative h-80 w-full overflow-hidden">
           <Image
             src={recipe.imageUrl}
@@ -31,7 +30,6 @@ export default function RecipeCard({ recipe, showCategoryBadge = true, showFavor
           )}
         </div>
 
-        {/* Recipe Info */}
         <div className="p-6">
           <h3 className="text-xl font-bold text-gray-900 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-green-600 group-hover:to-yellow-600 transition-all duration-300 line-clamp-2 mb-2">
             {recipe.title}
@@ -40,7 +38,6 @@ export default function RecipeCard({ recipe, showCategoryBadge = true, showFavor
             {recipe.description}
           </p>
 
-          {/* Optional metadata */}
           <div className="mt-4 flex items-center justify-between">
             {recipe.prepTime || recipe.cookTime ? (
               <div className="text-sm text-gray-700">

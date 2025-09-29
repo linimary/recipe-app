@@ -47,7 +47,7 @@ export const recipes: Recipe[] = [
         prepTime: 10,
         cookTime: 5,
         createdAt: '2024-01-01T00:00:00.000Z',
-        authorId: '2'
+        authorId: '1'
     },
     {
         id: '3',
@@ -73,7 +73,7 @@ export const recipes: Recipe[] = [
         prepTime: 20,
         cookTime: 30,
         createdAt: '2024-01-03T00:00:00.000Z',
-        authorId: '2'
+        authorId: '1'
     },
     {
         id: '5',
@@ -99,7 +99,7 @@ export const recipes: Recipe[] = [
         prepTime: 10,
         cookTime: 25,
         createdAt: '2024-01-05T00:00:00.000Z',
-        authorId: '2'
+        authorId: '1'
     },
     {
         id: '7',
@@ -139,10 +139,6 @@ export function addRecipe(data: Omit<Recipe, 'id'>) {
     return newRecipe
 }
 
-// export async function getRecipes(): Promise<Recipe[]> {
-//     return recipes;
-// }
-
 export async function getRecipeCategories(): Promise<string[]> {
     const categories = Array.from(new Set(recipes.map(r => r.category)));
     return categories;
@@ -151,16 +147,6 @@ export async function getRecipeCategories(): Promise<string[]> {
 export function getRecipeBySlug(slug: string): Recipe | undefined {
     return recipes.find(r => r.slug === slug)
 }
-
-// export function addRecipe(recipe: Omit<Recipe, 'id' | 'createdAt'>): Recipe {
-//   const newRecipe = {
-//     ...recipe,
-//     id: (recipes.length + 1).toString(),
-//     createdAt: new Date().toISOString()
-//   }
-//   recipes.push(newRecipe)
-//   return newRecipe
-// }
 
 export function getRecipeById(id: string) {
     return recipes.find(r => r.id === id)
@@ -235,7 +221,7 @@ export function addRecipeRating(recipeId: string, userId: string, rating: number
 export const users: User[] = [
     {
         id: '1',
-        email: 'admin@recipebook.com',
+        email: 'admin@example.com',
         name: 'Recipe Admin',
         password: '$2b$10$Vp41WiGzXbNY2cAl7rqC/u46K126o1uOhEfUjWR83.uzlL8ExBvIq', // 'password'
         role: 'admin',
@@ -243,7 +229,7 @@ export const users: User[] = [
     },
     {
         id: '2',
-        email: 'demo@example.com',
+        email: 'user@example.com',
         name: 'Demo User',
         password: '$2b$10$Vp41WiGzXbNY2cAl7rqC/u46K126o1uOhEfUjWR83.uzlL8ExBvIq', // 'password'
         role: 'user',

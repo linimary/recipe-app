@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/lib/auth'
 import { getRecipes, addRecipe } from '@/app/lib/data'
 import { z } from 'zod'
+import { slugify } from '@/app/lib/utils'
 
 const recipeSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const validation = recipeSchema.safeParse(body)
+    const validation = recipeSchema.omit({ slug: true }).safeParse(body)
 
     if (!validation.success) {
       return NextResponse.json(
@@ -71,8 +72,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const slug = slugify(validation.data.title)
+
     const newRecipe = addRecipe({
       ...validation.data,
+      slug,
       prepTime: validation.data.prepTime ? Number(validation.data.prepTime) : undefined,
       cookTime: validation.data.cookTime ? Number(validation.data.cookTime) : undefined,
       authorId: session.user.id,

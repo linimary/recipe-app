@@ -10,7 +10,6 @@ interface RecipePageProps {
   }>
 }
 
-// Pre-render all recipes
 export async function generateStaticParams() {
   const recipes = getRecipes()
   return recipes.map((recipe: Recipe) => ({
@@ -18,7 +17,6 @@ export async function generateStaticParams() {
   }))
 }
 
-// Generate SEO metadata
 export async function generateMetadata({ params }: RecipePageProps): Promise<Metadata> {
   const { id } = await params
   const recipe = getRecipeById(id)

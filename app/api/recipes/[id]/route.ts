@@ -70,7 +70,6 @@ export async function PUT(
 
     const { id } = await params
 
-    // Convert prepTime and cookTime to numbers if present
     const data = {
       ...validation.data,
       prepTime: validation.data.prepTime !== undefined ? Number(validation.data.prepTime) : undefined,

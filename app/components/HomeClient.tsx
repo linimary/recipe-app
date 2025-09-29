@@ -18,6 +18,8 @@ export default function HomeClient({ initialRecipes, availableCategories }: Home
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [filteredRecipesCount, setFilteredRecipesCount] = useState<number>(initialRecipes.length)
+  const [showFilteredMessage, setShowFilteredMessage] = useState(false)
 
   const fetchRecipes = async (search?: string, category?: string | null) => {
     setLoading(true)
@@ -29,6 +31,8 @@ export default function HomeClient({ initialRecipes, availableCategories }: Home
       const response = await fetch(`/api/recipes?${params.toString()}`)
       const data = await response.json()
       setRecipes(data)
+      setFilteredRecipesCount(data.length)
+      setShowFilteredMessage(true)
     } catch (error) {
       console.error('Failed to fetch recipes:', error)
     } finally {
@@ -38,11 +42,13 @@ export default function HomeClient({ initialRecipes, availableCategories }: Home
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
+    setShowFilteredMessage(false)
     fetchRecipes(searchTerm, selectedCategory)
   }
 
   const handleCategoryFilter = (category: string | null) => {
     setSelectedCategory(category)
+    setShowFilteredMessage(false)
     fetchRecipes(searchTerm, category)
   }
 
@@ -50,9 +56,10 @@ export default function HomeClient({ initialRecipes, availableCategories }: Home
     setSearchTerm('')
     setSelectedCategory(null)
     setRecipes(initialRecipes)
+    setFilteredRecipesCount(initialRecipes.length)
+    setShowFilteredMessage(false)
   }
 
-  const filteredRecipesCount = recipes.length
   const isFiltered = searchTerm || selectedCategory
 
   return (
@@ -135,8 +142,7 @@ export default function HomeClient({ initialRecipes, availableCategories }: Home
                 )}
               </div>
             </div>
-
-            {isFiltered && (
+            {showFilteredMessage && (
               <div className="mt-4 text-center text-sm text-gray-600">
                 {filteredRecipesCount} recipe{filteredRecipesCount !== 1 ? 's' : ''} found
                 {searchTerm && ` for "${searchTerm}"`}

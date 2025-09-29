@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 
     const { password: _, ...userWithoutPassword } = newUser
     return NextResponse.json(userWithoutPassword, { status: 201 })
-    
+
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to create user' },

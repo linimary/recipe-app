@@ -13,7 +13,7 @@ const ratingSchema = z.object({
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Unauthorized - Please sign in' },
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url)
     const recipeId = searchParams.get('recipeId')
-    
+
     if (!recipeId) {
       return NextResponse.json(
         { error: 'Recipe ID is required' },
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Unauthorized - Please sign in' },
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
 
     const { recipeId, rating, review } = validation.data
     const updatedRecipe = addRecipeRating(recipeId, session.user.id, rating, review)
-    
+
     if (!updatedRecipe) {
       return NextResponse.json(
         { error: 'Recipe not found' },

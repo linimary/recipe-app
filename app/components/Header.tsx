@@ -10,15 +10,11 @@ export default function Header() {
     <header className="bg-white/95 backdrop-blur-sm shadow-xl border-b border-gray-100 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          {/* Left side: Logo and navigation */}
-          <div className="flex items-center space-x-8">
-            <Link
-              href="/"
-              className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-yellow-500 hover:from-green-600 hover:to-yellow-600 transition-all duration-200"
-            >
-              🍳 Recipe Book
-            </Link>
 
+          <div className="flex items-center space-x-8">
+            <Link href="/" className="text-2xl font-bold transition-all duration-200 hover:text-green-600">
+              🍳 <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-yellow-500">Recipe Book</span>
+            </Link>
             <nav className="hidden md:flex space-x-6">
               <Link
                 href="/"
@@ -30,10 +26,10 @@ export default function Header() {
               {session && (
                 <>
                   <Link
-                    href="/my-recipes"
+                    href={session.user?.role === 'admin' ? '/my-recipes' : '/favorites'}
                     className="text-gray-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-500 hover:to-yellow-500 transition-all duration-200 font-medium"
                   >
-                    My Recipes
+                    {session.user?.role === 'admin' ? 'My Recipes' : 'My Favorites'}
                   </Link>
 
                   {session.user?.role === 'admin' && (
@@ -49,7 +45,6 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* Right side: Auth controls */}
           <div className="flex items-center space-x-4">
             {status === 'loading' ? (
               <div className="flex items-center space-x-2 animate-pulse">

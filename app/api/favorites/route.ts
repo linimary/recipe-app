@@ -7,11 +7,10 @@ interface FavoriteRequestBody {
   recipeId: string
 }
 
-// GET: fetch favorite recipes for the logged-in user
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized - Please sign in' }, { status: 401 })
     }
@@ -24,11 +23,10 @@ export async function GET() {
   }
 }
 
-// POST: add a recipe to favorites
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized - Please sign in' }, { status: 401 })
     }
@@ -54,11 +52,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// DELETE: remove a recipe from favorites
 export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized - Please sign in' }, { status: 401 })
     }

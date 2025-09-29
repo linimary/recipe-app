@@ -26,7 +26,6 @@ export default function RecipeDetailClient({ recipe }: RecipeDetailClientProps) 
     const [newRating, setNewRating] = useState(5)
     const [newReview, setNewReview] = useState('')
 
-    // Check if recipe is in favorites
     const checkFavoriteStatus = useCallback(async () => {
         if (!session?.user?.id) return
         try {
@@ -38,7 +37,6 @@ export default function RecipeDetailClient({ recipe }: RecipeDetailClientProps) 
         }
     }, [recipe.id, session?.user?.id])
 
-    // Check if user has rated this recipe
     const checkUserRating = useCallback(async () => {
         if (!session?.user?.id) return
         try {
@@ -68,6 +66,7 @@ export default function RecipeDetailClient({ recipe }: RecipeDetailClientProps) 
                 method: isFavorited ? 'DELETE' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ recipeId: recipe.id }),
+                credentials: 'include'
             })
             if (res.ok) setIsFavorited(!isFavorited)
         } catch (error) {
@@ -92,6 +91,7 @@ export default function RecipeDetailClient({ recipe }: RecipeDetailClientProps) 
                     rating: newRating,
                     review: newReview.trim() || undefined,
                 }),
+                credentials: 'include'
             })
             if (res.ok) {
                 setUserRating({ rating: newRating, review: newReview })
@@ -129,7 +129,7 @@ export default function RecipeDetailClient({ recipe }: RecipeDetailClientProps) 
                             <h1 className="text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-yellow-500 mb-6">
                                 {recipe.title}
                             </h1>
-                            <p className="text-gray-700 leading-relaxed text-lg mb-6">{recipe.description}</p>
+                            <p className="text-gray-700 leading-relaxed text-lg mb-6">{recipe.content}</p>
 
                             {/* Recipe Times */}
                             {(recipe.prepTime || recipe.cookTime) && (
@@ -190,15 +190,20 @@ export default function RecipeDetailClient({ recipe }: RecipeDetailClientProps) 
 
                             <div className="mb-4">
                                 <label className="block text-sm font-medium mb-2">Rating</label>
+
                                 <div className="flex space-x-1 mb-2">
-                                    {[1, 2, 3, 4, 5].map(star => (
+                                    {[1, 2, 3, 4, 5].map((star) => (
                                         <button
                                             key={star}
+                                            type="button"
                                             onClick={() => setNewRating(star)}
-                                            className={`text-2xl ${star <= newRating ? 'text-yellow-500' : 'text-gray-300'}`}
-                                        >⭐</button>
+                                            className="text-2xl text-yellow-500"
+                                        >
+                                            {star <= newRating ? "⭐" : "☆"}
+                                        </button>
                                     ))}
                                 </div>
+
                                 <p className="text-sm text-gray-600">{newRating}/5 stars</p>
                             </div>
 
