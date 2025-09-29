@@ -11,7 +11,7 @@ interface RecipePageProps {
 }
 
 export async function generateMetadata({ params }: RecipePageProps): Promise<Metadata> {
-  const { slug } = params
+  const { slug } = await params
   const recipe = getRecipeBySlug(slug)
 
   if (!recipe) {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
 }
 
 export default async function RecipePage({ params }: RecipePageProps) {
-  const { slug } = params
+  const { slug } = await params
   const recipe: Recipe | undefined = getRecipeBySlug(slug)
 
   if (!recipe) {
