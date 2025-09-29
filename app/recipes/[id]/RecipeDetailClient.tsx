@@ -93,12 +93,20 @@ export default function RecipeDetailClient({ recipe }: RecipeDetailClientProps) 
                 }),
                 credentials: 'include'
             })
+
             if (res.ok) {
-                setUserRating({ rating: newRating, review: newReview })
+                // const updatedRating = await res.json()
+                // setUserRating(updatedRating)
+                setUserRating({
+                rating: newRating,
+                review: newReview.trim() || undefined
+            })
                 setIsRatingModalOpen(false)
                 setNewRating(5)
                 setNewReview('')
-                window.location.reload()
+            } else {
+                const errorData = await res.json()
+                console.error('Rating submission failed:', errorData.error)
             }
         } catch (error) {
             console.error('Failed to submit rating', error)
@@ -106,6 +114,7 @@ export default function RecipeDetailClient({ recipe }: RecipeDetailClientProps) 
             setLoading(false)
         }
     }
+
 
     return (
         <div className="min-h-full bg-gradient-to-br from-blue-50 via-white to-purple-50">
