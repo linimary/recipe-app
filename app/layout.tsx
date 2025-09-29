@@ -8,7 +8,6 @@ import Footer from './components/Footer'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXTAUTH_URL || 'http://localhost:3000'),
   title: 'Recipe Book',
   description: 'A modern recipe book application built with Next.js',
 }
