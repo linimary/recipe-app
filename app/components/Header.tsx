@@ -26,19 +26,26 @@ export default function Header() {
               {session && (
                 <>
                   <Link
-                    href={session.user?.role === 'admin' ? '/my-recipes' : '/favorites'}
+                    href="/favorites"
                     className="text-gray-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-500 hover:to-yellow-500 transition-all duration-200 font-medium"
                   >
-                    {session.user?.role === 'admin' ? 'My Recipes' : 'My Favorites'}
+                    My Favorites
                   </Link>
-
                   {session.user?.role === 'admin' && (
-                    <Link
-                      href="/add-recipe"
-                      className="text-gray-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-500 hover:to-yellow-500 transition-all duration-200 font-medium"
-                    >
-                      Add Recipe
-                    </Link>
+                    <>
+                      <Link
+                        href="/my-recipes"
+                        className="text-gray-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-500 hover:to-yellow-500 transition-all duration-200 font-medium"
+                      >
+                        My Recipes
+                      </Link>
+                      <Link
+                        href="/add-recipe"
+                        className="text-gray-600 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-500 hover:to-yellow-500 transition-all duration-200 font-medium"
+                      >
+                        Add Recipe
+                      </Link>
+                    </>
                   )}
                 </>
               )}

@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Recipe, getUserRecipeRating } from '../../lib/data'
+import { Recipe } from '../../lib/data'
 
 interface RecipeDetailClientProps {
     recipe: Recipe
@@ -95,12 +95,10 @@ export default function RecipeDetailClient({ recipe }: RecipeDetailClientProps) 
             })
 
             if (res.ok) {
-                // const updatedRating = await res.json()
-                // setUserRating(updatedRating)
                 setUserRating({
-                rating: newRating,
-                review: newReview.trim() || undefined
-            })
+                    rating: newRating,
+                    review: newReview.trim() || undefined
+                })
                 setIsRatingModalOpen(false)
                 setNewRating(5)
                 setNewReview('')

@@ -10,7 +10,7 @@ interface RecipeCardProps {
 
 export default function RecipeCard({ recipe, showCategoryBadge = true, showFavoriteButton = true }: RecipeCardProps) {
   return (
-    <Link href={`/recipes/${recipe.id}`} className="group block">
+    <Link href={`/recipes/${recipe.slug}`} className="group block">
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
         <div className="relative h-80 w-full overflow-hidden">
           <Image
